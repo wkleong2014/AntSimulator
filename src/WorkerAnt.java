@@ -1,4 +1,4 @@
-//Queen Ant
+//Worker Ant
 import java.lang.*;
 
 public class WorkerAnt extends Ant implements Runnable{
@@ -21,9 +21,24 @@ public class WorkerAnt extends Ant implements Runnable{
       // try{
       //   Thread.sleep(10);
       // }catch(Exception e){}
-
     }
+  }
 
+  public void build(){
+
+  }
+
+  public void forage(){
+
+  }
+
+  public void rest(){
+    try{
+        Thread.sleep(10000);
+        energy = 100;
+    }catch(InterruptedException e){
+      System.out.println("WorkerAnt has died from InterruptedException");
+    }
   }
 
 }

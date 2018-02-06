@@ -22,9 +22,17 @@ public class QueenAnt extends Ant implements Runnable{
     exec.submit(t1);
   }
 
+  public void establishColony(){
+    Colony colony = new Colony();
+    colony.printStuff();
+  }
+
   @Override
   public void run(){
     System.out.println("QueenAnt is Running...");
+    System.out.println("QueenAnt is Establishing her Colony");
+    establishColony();
+
     //Timer for QueenAnt to lay eggs
     for(int i=0;i<5;i++){
       System.out.println("QueenAnt is laying Egg for the " + i + " times");
