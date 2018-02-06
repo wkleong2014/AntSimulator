@@ -15,12 +15,12 @@ public class WorkerAnt extends Ant implements Runnable{
   @Override
   public void run(){
     //layEgg()
-    for(int i=0;i<100;i++){
+    for(int i=0;i<10;i++){
       String temp = Thread.currentThread().getName();
       System.out.println("WorkerAnt " + temp + " is running at " + i);
-      try{
-        Thread.sleep(10);
-      }catch(Exception e){}
+      // try{
+      //   Thread.sleep(10);
+      // }catch(Exception e){}
 
     }
 
