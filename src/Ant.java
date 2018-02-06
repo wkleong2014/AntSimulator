@@ -1,13 +1,20 @@
 //Parent class for All Ants
 public class Ant{
 
-  private int id;
+  private String name;
+  private int height;
+  private int weight;
 
-  public Ant(int id){
-    this.id = id;
+  public Ant(String name, int height, int weight){
+    this.name = name;
+    this.height = height;
+    this.weight = weight;
   }
 
-  public int getID() {return id;}
+  public String getName() {return name;}
 
+  public int getHeight() {return height;}
+
+  public int getWeight() {return weight;}
 
 }
