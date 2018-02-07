@@ -4,11 +4,13 @@ public class Colony{
   private int reputation;
   private int size;
   private final String[][] COLONY_RANKS = new String[][]{{"Hut", "100"}, {"Village", "200"}, {"Town", "300"}, {"City", "400"}, {"Empire", "500"}};
+  private Storage storage;
 
   public Colony(){
     reputation = 10;
     size = 1;
     currentRank = COLONY_RANKS[0][0];
+    storage = new Storage();
   }
 
   public void upRank(){
@@ -31,8 +33,10 @@ public class Colony{
     reputation -= amount;
   }
 
+  public void getResources(){return storage.getResources();}
+
   public void printStuff(){
-    System.out.println("Reputation: " + reputation + " | " + "Size: " + size + " | " + "currentRank: " + currentRank);
+    System.out.println("Reputation: " + reputation + " | " + "Size: " + size + " | " + "currentRank: " + currentRank + " | Current Resources: " + storage.getResources());
   }
 
 }

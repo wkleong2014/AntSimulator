@@ -3,9 +3,10 @@ import java.lang.*;
 public class AntSimulator{
 
   public static void main(String[] args){
-    QueenAnt queenAnt = new QueenAnt("Queen Ant", 20, 20);
+    System.out.println("***** Simulation Begun *****");
+    QueenAnt queenAnt = new QueenAnt("Queen Ant", 20, 20, null);
     //can replace Thread with ExecutorService
-    
+
     Thread t1 = new Thread(queenAnt);
     t1.start();
 
@@ -24,9 +25,6 @@ public class AntSimulator{
       }catch(InterruptedException e){};
     }; //Check if WorkerAnt's Threads are all terminated
 
-    // System.out.println(queenAnt);
-    // System.out.println("***** Simulation Begun *****");
-    colony.printStuff();
     System.out.println("***** Simulation Ended *****");
 
   }

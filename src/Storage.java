@@ -14,4 +14,6 @@ public class Storage{
     resources -= amount;
   }
 
+  public int getResources(){return resources;}
+
 }
