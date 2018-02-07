@@ -16,11 +16,23 @@ public class WorkerAnt extends Ant implements Runnable{
   public void run(){
     //layEgg()
     for(int i=0;i<10;i++){
-      String temp = Thread.currentThread().getName();
-      System.out.println("WorkerAnt " + temp + " is running at " + i);
+    //  String temp = Thread.currentThread().getName();
+      System.out.println("WorkerAnt " + getName() + " is running at " + i);
       // try{
       //   Thread.sleep(10);
       // }catch(Exception e){}
+    if(energy != 0) {  // first check if there is energy else rest
+      if (Storage.resources() != 0) { // always start with Storage, if empty then go gather resources 
+          Storage.decResource();
+          Colony.incReputation();
+          //build
+      } else {
+        Storage.incResources();    
+      }
+    } else {
+      rest();
+    }
+    
     }
   }
 
