@@ -1,4 +1,7 @@
 //Colony
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class Colony{
   private String currentRank;
   private int reputation;
@@ -16,12 +19,19 @@ public class Colony{
   public void upRank(){
     if(reputation >= Integer.parseInt(COLONY_RANKS[4][1])){ //500
       currentRank = COLONY_RANKS[4][0];
+          System.out.println("Reputation: " + reputation + " | " + "Size: " + size + " | " + "currentRank: " + currentRank + " | Current Resources: " + storage.getResources());
+
     } else if(reputation >= Integer.parseInt(COLONY_RANKS[3][1])){ //400
       currentRank = COLONY_RANKS[3][0];
+          System.out.println("Reputation: " + reputation + " | " + "Size: " + size + " | " + "currentRank: " + currentRank + " | Current Resources: " + storage.getResources());
+
     } else if(reputation >= Integer.parseInt(COLONY_RANKS[2][1])){ //300
       currentRank = COLONY_RANKS[2][0];
+          System.out.println("Reputation: " + reputation + " | " + "Size: " + size + " | " + "currentRank: " + currentRank + " | Current Resources: " + storage.getResources());
+
     } else if(reputation >= Integer.parseInt(COLONY_RANKS[1][1])){ //200
       currentRank = COLONY_RANKS[1][0];
+          System.out.println("Reputation: " + reputation + " | " + "Size: " + size + " | " + "currentRank: " + currentRank + " | Current Resources: " + storage.getResources());
     }
   }
 

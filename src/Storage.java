@@ -1,19 +1,22 @@
 //Resources (like the bank storage)
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class Storage{
-  private int resources;
+  private static int resources;
 
   public Storage(){
     resources = 100;
   }
 
-  public void incResource(int amount){
+  public static void incResource(int amount){
     resources += amount;
   }
 
-  public void decResource(int amount){
+  public static void decResource(int amount){
     resources -= amount;
   }
 
-  public int getResources(){return resources;}
+  public static int getResources(){return resources;}
 
 }
