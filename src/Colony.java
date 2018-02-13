@@ -43,7 +43,11 @@ public class Colony{
     reputation -= amount;
   }
 
-  public int getResources(){return storage.getResources();}
+  public void setSize(int amount){
+    size += amount;
+  }
+
+  public Storage getStorage(){return storage;}
 
   public void printStuff(){
     System.out.println("Reputation: " + reputation + " | " + "Size: " + size + " | " + "currentRank: " + currentRank + " | Current Resources: " + storage.getResources());

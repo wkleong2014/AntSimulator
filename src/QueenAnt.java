@@ -3,7 +3,7 @@ import java.lang.*;
 import java.util.concurrent.*;
 
 public class QueenAnt extends Ant implements Runnable{
-  private final int MAX_NO_OF_EGGS_LAID = 10;
+  private final int MAX_NO_OF_EGGS_LAID = 10; //Maximum number of times that Queen Ant can layEgg()
   private int antId = 1;
   public static ExecutorService exec = Executors.newFixedThreadPool(100000);
 
@@ -11,22 +11,23 @@ public class QueenAnt extends Ant implements Runnable{
     super(name, height, weight, colony);
   }
 
-  // public String toString(){
-  //   return "" + super.getID() + " | " + test;
-  // }
-
   public void layEgg(){
-    int randomNumOfEgg = 1; //to change this to random int
-    for(int i=0; i<randomNumOfEgg; i++){
+    //TODO - Change randomNumOfAnts into Random r = new Random()
+    int randomNumOfAnts = 1; //Number of Ants produced by an egg
+    for(int i=0; i<randomNumOfAnts; i++){
       WorkerAnt ant = new WorkerAnt("Ant_" + antId, 20, 20, getColony());
       antId++;
       Thread t1 = new Thread(ant);
       exec.submit(t1);
     }
+    getColony().setSize(randomNumOfAnts);
   }
 
   public void establishColony(){
     setColony(new Colony());
+    // QueenAnt auditor = new QueenAnt("Auditor", 20, 20, getColony());
+    // Thread audit = new Thread(auditor::auditResources);
+    // audit.start();
     getColony().printStuff();
   }
 
@@ -37,17 +38,22 @@ public class QueenAnt extends Ant implements Runnable{
     establishColony();
 
     //Timer for QueenAnt to lay eggs
-    for(int i=0;i<MAX_NO_OF_EGGS_LAID;i++){
+    for(int i=1;i<=MAX_NO_OF_EGGS_LAID;i++){
       try {
-        Thread.sleep(4);
+        Thread.sleep(1);
       } catch (InterruptedException e) {
 
       }
       layEgg();
       System.out.println("QueenAnt is laying Egg for the " + i + " times");
-
     }
     exec.shutdown();
   }
+
+  // public void auditResources(){
+  //   while(!exec.isTerminated()){
+  //     System.out.println("Colony Resources: " + getColony().getStorage().getResources());
+  //   }; //Check if WorkerAnt's Threads are all terminated
+  // }
 
 }

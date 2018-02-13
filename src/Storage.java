@@ -1,22 +1,39 @@
 //Resources (like the bank storage)
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Storage{
-  private static int resources;
-
+  private int resources;
+  public ReentrantLock storageLock = new ReentrantLock();
   public Storage(){
     resources = 100;
   }
 
-  public static void incResource(int amount){
-    resources += amount;
+  public void incResource(int amount){
+    try{
+      storageLock.lock();
+      Thread.sleep(5); //increase chances of race condition
+      resources += amount;
+      Thread.sleep(5); //increase chances of race condition
+    }catch(Exception e){
+    }
+    finally{
+      storageLock.unlock();
+    }
   }
 
-  public static void decResource(int amount){
-    resources -= amount;
+  public void decResource(int amount){
+    try{
+      storageLock.lock();
+      Thread.sleep(5); //increase chances of race condition
+      resources -= amount;
+      Thread.sleep(5); //increase chances of race condition
+    }catch(Exception e){
+    }
+    finally{
+      storageLock.unlock();
+    }
   }
 
-  public static int getResources(){return resources;}
+  public int getResources(){return resources;}
 
 }
