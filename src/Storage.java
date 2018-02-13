@@ -5,7 +5,7 @@ public class Storage{
   private int resources;
   public ReentrantLock storageLock = new ReentrantLock();
   public Storage(){
-    resources = 100;
+    resources = 150;
   }
 
   public void incResource(int amount){
@@ -34,6 +34,8 @@ public class Storage{
     }
   }
 
-  public int getResources(){return resources;}
+  public int getResources(){
+    return resources;
+  }
 
 }

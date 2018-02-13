@@ -5,7 +5,7 @@ import java.util.concurrent.*;
 public class QueenAnt extends Ant implements Runnable{
   private final int MAX_NO_OF_EGGS_LAID = 10; //Maximum number of times that Queen Ant can layEgg()
   private int antId = 1;
-  public static ExecutorService exec = Executors.newFixedThreadPool(100000);
+  public static ExecutorService exec = Executors.newCachedThreadPool();
 
   public QueenAnt(String name, int height, int weight, Colony colony){
     super(name, height, weight, colony);
@@ -25,9 +25,6 @@ public class QueenAnt extends Ant implements Runnable{
 
   public void establishColony(){
     setColony(new Colony());
-    // QueenAnt auditor = new QueenAnt("Auditor", 20, 20, getColony());
-    // Thread audit = new Thread(auditor::auditResources);
-    // audit.start();
     getColony().printStuff();
   }
 
@@ -49,11 +46,5 @@ public class QueenAnt extends Ant implements Runnable{
     }
     exec.shutdown();
   }
-
-  // public void auditResources(){
-  //   while(!exec.isTerminated()){
-  //     System.out.println("Colony Resources: " + getColony().getStorage().getResources());
-  //   }; //Check if WorkerAnt's Threads are all terminated
-  // }
 
 }
