@@ -7,32 +7,20 @@ public class Colony{
   private int size;
   private final String[][] COLONY_RANKS = new String[][]{{"Hut", "100"}, {"Village", "200"}, {"Town", "300"}, {"City", "400"}, {"Empire", "500"}};
   private Storage storage;
-  // private ReentrantLock colonyLock;
+  private ReentrantLock colonyLock;
 
   public Colony(){
     reputation = 10;
     size = 1;
     currentRank = COLONY_RANKS[0][0];
     storage = new Storage();
-    // colonyLock = new ReentrantLock();
+    colonyLock = new ReentrantLock();
   }
 
-  public void upRank(){
-    if(reputation >= Integer.parseInt(COLONY_RANKS[4][1])){ //500
-      currentRank = COLONY_RANKS[4][0];
-      System.out.println("Reputation: " + reputation + " | " + "Size: " + size + " | " + "currentRank: " + currentRank + " | Current Resources: " + storage.getResources());
-
-    } else if(reputation >= Integer.parseInt(COLONY_RANKS[3][1])){ //400
-      currentRank = COLONY_RANKS[3][0];
-      System.out.println("Reputation: " + reputation + " | " + "Size: " + size + " | " + "currentRank: " + currentRank + " | Current Resources: " + storage.getResources());
-
-    } else if(reputation >= Integer.parseInt(COLONY_RANKS[2][1])){ //300
-      currentRank = COLONY_RANKS[2][0];
-      System.out.println("Reputation: " + reputation + " | " + "Size: " + size + " | " + "currentRank: " + currentRank + " | Current Resources: " + storage.getResources());
-
-    } else if(reputation >= Integer.parseInt(COLONY_RANKS[1][1])){ //200
-      currentRank = COLONY_RANKS[1][0];
-      System.out.println("Reputation: " + reputation + " | " + "Size: " + size + " | " + "currentRank: " + currentRank + " | Current Resources: " + storage.getResources());
+  public void setRank(String newRank){
+    if(currentRank != newRank){
+      currentRank = newRank;
+      printInfo();
     }
   }
 
@@ -40,29 +28,35 @@ public class Colony{
 
   public void incReputation(int amount){
     try{
-      // colonyLock.lock();
-      Thread.sleep(5); //increase chances of race condition
-      int a = amount;
-      reputation += a;
-      Thread.sleep(5); //increase chances of race condition
-    }catch(Exception e){
+      colonyLock.lock();
+      Thread.sleep(1); //increase chances of race condition
+      reputation += amount;
+      Thread.sleep(1); //increase chances of race condition
+    } catch(Exception e){
+    } finally {
+      colonyLock.unlock();
     }
-    // finally{
-    //   colonyLock.unlock();
-    // }
+    if(reputation >= Integer.parseInt(COLONY_RANKS[4][1])){ //500
+      setRank(COLONY_RANKS[4][0]);
+    } else if(reputation >= Integer.parseInt(COLONY_RANKS[3][1])){ //400
+      setRank(COLONY_RANKS[2][0]);
+    } else if(reputation >= Integer.parseInt(COLONY_RANKS[2][1])){ //300
+      setRank(COLONY_RANKS[3][0]);
+    } else if(reputation >= Integer.parseInt(COLONY_RANKS[1][1])){ //200
+      setRank(COLONY_RANKS[1][0]);
+    }
   }
 
   public void decReputation(int amount){
     try{
-      // colonyLock.lock();
-      Thread.sleep(10); //increase chances of race condition
+      colonyLock.lock();
+      Thread.sleep(1); //increase chances of race condition
       reputation -= amount;
-      Thread.sleep(10); //increase chances of race condition
-    }catch(Exception e){
+      Thread.sleep(1); //increase chances of race condition
+    } catch(Exception e){
+    } finally {
+      colonyLock.unlock();
     }
-    // finally{
-    //   colonyLock.unlock();
-    // }
   }
 
   public String getCurrentRank(){return currentRank;}
@@ -73,7 +67,7 @@ public class Colony{
 
   public Storage getStorage(){return storage;}
 
-  public void printStuff(){
+  public void printInfo(){
     System.out.println("Reputation: " + reputation + " | " + "Size: " + size + " | " + "currentRank: " + currentRank + " | Current Resources: " + storage.getResources());
   }
 

@@ -13,9 +13,7 @@ public class Storage{
   public void incResource(int amount){
     try{
       storageLock.lock();
-      Thread.sleep(5); //increase chances of race condition
       resources += amount;
-      Thread.sleep(5); //increase chances of race condition
     }catch(Exception e){
     }
     finally{
@@ -26,9 +24,7 @@ public class Storage{
   public void decResource(int amount){
     try{
       storageLock.lock();
-      Thread.sleep(5); //increase chances of race condition
       resources -= amount;
-      Thread.sleep(5); //increase chances of race condition
     }catch(Exception e){
     }
     finally{

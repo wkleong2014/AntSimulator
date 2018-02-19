@@ -25,7 +25,7 @@ public class QueenAnt extends Ant implements Runnable{
 
   public void establishColony(){
     setColony(new Colony());
-    getColony().printStuff();
+    getColony().printInfo();
   }
 
   @Override

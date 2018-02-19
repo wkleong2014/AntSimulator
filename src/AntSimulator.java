@@ -19,16 +19,18 @@ public class AntSimulator{
         Thread.sleep(1000);
       }catch(InterruptedException e){};
     }; //Check if WorkerAnt's Threads are all terminated
+    System.out.println("********************************");
     System.out.println("Final Print of Storage: " + queenAnt.getColony().getStorage().getResources());
     System.out.println("Final Print of Reputation: " + queenAnt.getColony().getReputation());
     System.out.println("Final Print of Rank: " + queenAnt.getColony().getCurrentRank());
+    System.out.println("********************************");
+    System.out.println("Expected Final Storage: " + (queenAnt.getColony().getStorage().STARTING_RESOURCES - (WorkerAnt.buildCount*WorkerAnt.BUILD_COST) + (WorkerAnt.forageCount * WorkerAnt.FORAGE_GAIN)));
+    System.out.println("Expected Reputation: " + (10 + (WorkerAnt.buildCount*15)));
     System.out.println("Build Count: " + WorkerAnt.buildCount);
     System.out.println("Forage Count: " + WorkerAnt.forageCount);
-    System.out.println("Expected Reputation: " + (10 + (WorkerAnt.buildCount*15)));
-    System.out.println("Expected Final Storage: " + (queenAnt.getColony().getStorage().STARTING_RESOURCES - (WorkerAnt.buildCount*WorkerAnt.BUILD_COST) + (WorkerAnt.forageCount * WorkerAnt.FORAGE_GAIN)));
     // print summary
     System.out.println("Time elapsed : " + timer.toString());
-    System.out.println("***** Simulation Ended *****");
+    System.out.println("******* Simulation Ended *******");
 
   }
 }
