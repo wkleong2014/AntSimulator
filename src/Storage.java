@@ -4,8 +4,10 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Storage{
   private int resources;
   public ReentrantLock storageLock = new ReentrantLock();
+  public final int STARTING_RESOURCES = 150;
+
   public Storage(){
-    resources = 150;
+    resources = STARTING_RESOURCES;
   }
 
   public void incResource(int amount){

@@ -25,7 +25,7 @@ public class AntSimulator{
     System.out.println("Build Count: " + WorkerAnt.buildCount);
     System.out.println("Forage Count: " + WorkerAnt.forageCount);
     System.out.println("Expected Reputation: " + (10 + (WorkerAnt.buildCount*15)));
-    System.out.println("Expected Final Storage: " + (150 - (WorkerAnt.buildCount*10) + (WorkerAnt.forageCount)));
+    System.out.println("Expected Final Storage: " + (queenAnt.getColony().getStorage().STARTING_RESOURCES - (WorkerAnt.buildCount*WorkerAnt.BUILD_COST) + (WorkerAnt.forageCount * WorkerAnt.FORAGE_GAIN)));
     // print summary
     System.out.println("Time elapsed : " + timer.toString());
     System.out.println("***** Simulation Ended *****");

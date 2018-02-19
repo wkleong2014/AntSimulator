@@ -8,6 +8,9 @@ public class WorkerAnt extends Ant implements Runnable{
   private int energy = 100;
   public static int buildCount = 0;
   public static int forageCount = 0;
+  public static final int BUILD_COST = 0;
+  public static final int FORAGE_GAIN = 10;
+
   public WorkerAnt(String name, int height, int weight, Colony colony){
     super(name, height, weight, colony);
   }
@@ -15,20 +18,27 @@ public class WorkerAnt extends Ant implements Runnable{
   @Override
   public void run(){
 
-    for(int i=0;i<10;i++){ // start to work: run 10 times each WorkerAnt
+    for(int i=0;i<100;i++){ // start to work: run 10 times each WorkerAnt
       /*
-        When WorkerAnt is building, no other WorkerAnts can forage/build
-        When WorkerAnt is foraging, all other WorkerAnts can forage
+      When WorkerAnt is building, no other WorkerAnts can forage/build
+      When WorkerAnt is foraging, all other WorkerAnts can forage
       */
-      randomDelay(5);
-      getColony().getStorage().storageLock.lock();
-      if(getColony().getStorage().getResources() >= 10){
-        build();
-        getColony().getStorage().storageLock.unlock();
-      } else{
-        getColony().getStorage().storageLock.unlock();
-        forage();
-      }
+      // randomDelay(5);
+      // getColony().getStorage().storageLock.lock();
+      // if(getColony().getStorage().getResources() >= BUILD_COST){
+      //   build();
+      //   getColony().getStorage().storageLock.unlock();
+      // } else{
+      //   getColony().getStorage().storageLock.unlock();
+      //   forage();
+      // }
+
+      // if(i%2==0){
+      //   build();
+      // } else{
+      //   forage();
+      // }
+      build();
     }
 
     // if(energy > 0){
@@ -55,23 +65,36 @@ public class WorkerAnt extends Ant implements Runnable{
   }
 
   public void build(){  // when build, minus resource, and add reputation (KIV how much to add), and always check for rank
-    //randomDelay(1000);
-    getColony().getStorage().decResource(10);
     System.out.println(getName() + " is trying to build");
-    getColony().incReputation(15);
-    getColony().upRank();
-    buildCount+=1;
-    randomDelay(5);
-    energy -= 20;
-
+    randomDelay(10);
+    boolean sufficient_resource = false;
+    try{
+      getColony().getStorage().storageLock.lock();
+      if(getColony().getStorage().getResources() >= BUILD_COST){
+        getColony().getStorage().decResource(BUILD_COST);
+        sufficient_resource = true;
+        System.out.println(getName() + " has built successfully");
+      } else{
+        System.out.println("Insufficent Resource");
+      }
+    } finally{
+      getColony().getStorage().storageLock.unlock();
+    }
+    if(sufficient_resource){
+      buildCount+=1;
+      getColony().incReputation(15);
+      getColony().upRank();
+      energy -= 20;
+    }
   }
 
   public void forage(){ // increase resource
-    getColony().getStorage().incResource(1);
     System.out.println(getName() + " is trying to forage");
+    randomDelay(10);
+    getColony().getStorage().incResource(FORAGE_GAIN);
     forageCount+=1;
-    randomDelay(5);
     energy -= 20;
+    System.out.println(getName() + " forage successfully");
   }
 
   public void rest(){ // sleep when ant energy == 0

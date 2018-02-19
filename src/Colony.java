@@ -41,9 +41,10 @@ public class Colony{
   public void incReputation(int amount){
     try{
       // colonyLock.lock();
-      Thread.sleep(10); //increase chances of race condition
-      reputation += amount;
-      Thread.sleep(10); //increase chances of race condition
+      Thread.sleep(5); //increase chances of race condition
+      int a = amount;
+      reputation += a;
+      Thread.sleep(5); //increase chances of race condition
     }catch(Exception e){
     }
     // finally{
