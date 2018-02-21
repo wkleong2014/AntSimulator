@@ -21,6 +21,7 @@ public class WorkerAnt extends Ant implements Runnable{
       /*
       WorkerAnt can always try to build/forage
       */
+      randomDelay(1000);
       if(energy > 0){
         Random r = new Random();
         int random = r.nextInt(2);
