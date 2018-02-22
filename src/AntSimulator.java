@@ -8,7 +8,7 @@ public class AntSimulator{
     timer.start();
 
     System.out.println("***** Simulation Begun *****");
-    System.out.println("Enter P to get information about Colony");
+    System.out.println("Enter C to get information about Colony");
 
 
     QueenAnt queenAnt = new QueenAnt("Queen Ant", 20, 20, null);

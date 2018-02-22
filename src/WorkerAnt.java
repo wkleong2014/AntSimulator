@@ -3,6 +3,7 @@ import java.lang.*;
 import java.util.Random;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.CyclicBarrier;
 
 public class WorkerAnt extends Ant implements Runnable{
   private int energy = 100;
@@ -10,6 +11,7 @@ public class WorkerAnt extends Ant implements Runnable{
   public static int forageCount = 0;
   public static final int BUILD_COST = 0;
   public static final int FORAGE_GAIN = 2;
+  public static CyclicBarrier barrier;
 
   public WorkerAnt(String name, int height, int weight, Colony colony){
     super(name, height, weight, colony);
@@ -17,18 +19,35 @@ public class WorkerAnt extends Ant implements Runnable{
 
   @Override
   public void run(){
+    barrier = new CyclicBarrier(3, new Runnable(){
+      public void run(){
+        // harvest();
+        System.out.println("Harvesting can begin!!");
+      }
+    });
+
     for(int i=0;i<100;i++){ // start to work: run 10 times each WorkerAnt
       /*
       WorkerAnt can always try to build/forage
       */
+
       randomDelay(1000);
+
       if(energy > 0){
         Random r = new Random();
-        int random = r.nextInt(2);
-        if(random == 1){
+        int random = r.nextInt(3);
+        if(random == 0){
           build();
-        } else{
+        } else if(random == 1){
           forage();
+        } else{
+          try{ //AKA harvest need to wait
+            System.out.println(Thread.currentThread().getName() + " is waiting to harvest");
+            System.out.println("There are " + (barrier.getNumberWaiting()+1) + " waiting to begin harvesting");
+            barrier.await();
+            //3 ,4 ,9
+            System.out.println(Thread.currentThread().getName() + " is currently harvesting...");
+          } catch(Exception e) {}
         }
       } else{
         rest();
@@ -78,6 +97,13 @@ public class WorkerAnt extends Ant implements Runnable{
     }catch(InterruptedException e){
       System.out.println("WorkerAnt has died from InterruptedException");
     }
+  }
+
+  public void harvest(){
+    for(int i=0;i<10;i++){
+      System.out.println(Thread.currentThread().getName() + " is currently harvesting...");
+    }
+
   }
 
   public void randomDelay(int time) { // create this method so no need keep try catch in main code
