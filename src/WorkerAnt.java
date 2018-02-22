@@ -53,10 +53,11 @@ public class WorkerAnt extends Ant implements Runnable{
               barrier.await();
               //3 ,4 ,9
               Expedition temp = expedition;
+              int currentMapProgression = mapProgression;
               expedition(temp);
               temp.addCounter();
               if(temp.getCounter() == NUM_OF_WORKER_REQUIRED){
-                System.out.println("Current Overall Map Progress is: " + mapProgression);
+                System.out.println("Current Overall Map Progress is: " + currentMapProgression);
               }
             } catch(Exception e) {}
           }
@@ -67,6 +68,7 @@ public class WorkerAnt extends Ant implements Runnable{
     }
 
     public void expedition(Expedition expedition){ //3 local version of expeditions
+      randomDelay(1000);
       while(expedition.getProgress(expedition.getID()) < 100){
         System.out.println(getName() + " is exploring expedition " + expedition.getID() +" ...");
         expedition.addProgress(expedition.getID(), expedition.getProgress(expedition.getID())+10);
