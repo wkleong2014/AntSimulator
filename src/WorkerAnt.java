@@ -57,9 +57,18 @@ public class WorkerAnt extends Ant implements Runnable{
               expedition(temp);
               temp.addCounter();
               if(temp.getCounter() == NUM_OF_WORKER_REQUIRED){
-                System.out.println("Current Overall Map Progress is: " + currentMapProgression);
+                String output = "";
+                output += "[";
+                for (int j = 1; j <= currentMapProgression/10; j++) {
+                  output += " * ";
+                }
+                for (int k = 1; k <= 10 - (currentMapProgression/10); k++) {
+                  output += " - ";
+                }
+                output+= "]";
+                System.out.println(output + " Current Overall Map Progress is: " + currentMapProgression + "%");
               }
-            } catch(Exception e) {}
+          } catch(Exception e) {}
           }
         } else{
           rest();
