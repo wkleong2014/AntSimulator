@@ -1,11 +1,12 @@
-
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.HashMap;
 
 public class Expedition{
   private int id;
   private final int MAX_PROGRESS = 100;
-  private ConcurrentHashMap<Integer, Integer> progress = new ConcurrentHashMap<Integer, Integer>();
+  private HashMap<Integer, Integer> progress = new HashMap<Integer, Integer>();
   private int counter = 0;
+  public ReentrantLock expeditionLock = new ReentrantLock();
 
   public Expedition(int id){
     this.id = id;

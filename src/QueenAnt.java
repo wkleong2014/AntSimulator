@@ -39,7 +39,9 @@ public class QueenAnt extends Ant implements Runnable{
       try {
         Thread.sleep(1);
       } catch (InterruptedException e) {
-
+      }
+      if(i==1){
+        WorkerAnt.initialiseCyclicBarrier();
       }
       layEgg();
       System.out.println("QueenAnt is laying Egg for the " + i + " times");

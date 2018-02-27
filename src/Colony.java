@@ -20,6 +20,7 @@ public class Colony{
   public void setRank(String newRank){
     if(currentRank != newRank){
       currentRank = newRank;
+      System.out.println("*******************************************************\nCongratulations! The Colony has achieved a new Rank!");
       printInfo();
     }
   }
@@ -68,7 +69,12 @@ public class Colony{
   public Storage getStorage(){return storage;}
 
   public void printInfo(){
-    System.out.println("Reputation: " + reputation + " | " + "Size: " + size + " | " + "currentRank: " + currentRank + " | Current Resources: " + storage.getResources());
+    colonyLock.lock();
+    storage.storageLock.lock();
+    System.out.println("*******************************************************\nReputation: " + reputation + "\t\t\tSize: " + size + "\nCurrentRank: " +
+    currentRank + "\t\tCurrent Resources: " + storage.getResources() + "\n*******************************************************");
+    colonyLock.unlock();
+    storage.storageLock.unlock();
   }
 
 }

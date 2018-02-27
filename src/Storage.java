@@ -4,7 +4,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Storage{
   private int resources;
   public ReentrantLock storageLock = new ReentrantLock();
-  public final int STARTING_RESOURCES = 150;
+  public static final int STARTING_RESOURCES = 150;
 
   public Storage(){
     resources = STARTING_RESOURCES;
