@@ -24,18 +24,16 @@ public class WorkerAnt extends Ant implements Runnable{
   @Override
   public void run(){
     barrier = new CyclicBarrier(NUM_OF_WORKER_REQUIRED, new Runnable(){
+      //Barrier Action
       public void run(){
-        // harvest();
         expedition = new Expedition(expeditionID++);
         mapProgression += 10;
         System.out.println("Expedition can begin!!");
       }
     });
 
-    for(int i=0;i<100;i++){ // start to work: run 10 times each WorkerAnt
-      /*
-      WorkerAnt can always try to build/forage
-      */
+    //Number of times WorkerAnt will build/forage/expedition
+    for(int i=0;i<100;i++){
 
       randomDelay(1000);
 
@@ -47,11 +45,10 @@ public class WorkerAnt extends Ant implements Runnable{
         } else if(random == 1){
           forage();
         } else if (random == 2 && mapProgression < 100){
-            try{ //AKA harvest need to wait
+            try{
               System.out.println(getName() + " is waiting to harvest");
               System.out.println("There are " + (barrier.getNumberWaiting()+1) + " waiting to begin harvesting");
               barrier.await();
-              //3 ,4 ,9
               Expedition temp = expedition;
               int currentMapProgression = mapProgression;
               expedition(temp);
@@ -76,7 +73,7 @@ public class WorkerAnt extends Ant implements Runnable{
       }
     }
 
-    public void expedition(Expedition expedition){ //3 local version of expeditions
+    public void expedition(Expedition expedition){
       randomDelay(1000);
       while(expedition.getProgress(expedition.getID()) < 100){
         System.out.println(getName() + " is exploring expedition " + expedition.getID() +" ...");
