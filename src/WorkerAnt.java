@@ -65,6 +65,8 @@ public class WorkerAnt extends Ant implements Runnable{
             barrier.await(3000, TimeUnit.MILLISECONDS);
 
             //The following codes will not be executed until NUM_OF_WORKER_REQUIRED (default: 3) threads are waiting at the barrier
+
+            //Avoid the race condition of mapParts by assigning it to a temporary variable
             int currentMapPartsCompleted = mapParts;
 
             //Stores the currentExpedition as a temporary variable so that counter can be added later to print Overall Map Progress ONCE
@@ -74,7 +76,7 @@ public class WorkerAnt extends Ant implements Runnable{
             expedition(currentExpedition);
             currentExpedition.addCounter();
 
-            //Check that it is the last thread to print the overall map progress (ensures no duplication of printing)
+            //Check that it is the last thread to print the current map parts completed (ensures no duplication of printing)
             if(currentExpedition.getCounter() == NUM_OF_WORKER_REQUIRED){
               //Adds to a string to prevent any chopped up printing
               String output = "";
@@ -102,7 +104,11 @@ public class WorkerAnt extends Ant implements Runnable{
     }
   }
 
-  //Each WorkerAnt thread (default: 3) in an expedition will have their own memory of expedition
+  /*
+    Every expedition requires NUMBER_OF_EXPLORES_REQUIRED (default: 10) "explores" to complete the expedition
+    Every expedition will add 1 part to the overall map parts
+    Each WorkerAnt thread (default: 3) in an expedition will have their own memory of expedition
+  */
   public void expedition(Expedition expedition){
     //Each WorkerAnt will at least explore the total number of exploration required (Worst Case scenario where only 1 WorkerAnt completes the expedition on its own)
     for(int i=0;i<expedition.NUMBER_OF_EXPLORES_REQUIRED;i++){
