@@ -1,13 +1,14 @@
-//Colony
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Colony{
   private String currentRank;
   private int reputation;
   private int size;
+  private Storage storage;          //Each colony contains only one storage class
+  private ReentrantLock colonyLock; //Each colony will have their own lock
+
+  //Stores the Rank and the required reputation to achieve the corresponding Rank <Rank, Reputation Required>
   private final String[][] COLONY_RANKS = new String[][]{{"Hut", "100"}, {"Village", "200"}, {"Town", "300"}, {"City", "400"}, {"Empire", "500"}};
-  private Storage storage;
-  private ReentrantLock colonyLock;
 
   public Colony(){
     reputation = 10;
@@ -17,6 +18,16 @@ public class Colony{
     colonyLock = new ReentrantLock();
   }
 
+  //Getter Methods
+  public String getCurrentRank(){return currentRank;}
+
+  public int getSize(){return size;}
+
+  public Storage getStorage(){return storage;}
+
+  public int getReputation(){return reputation;}
+
+  //Setter Methods
   public void setRank(String newRank){
     if(currentRank != newRank){
       currentRank = newRank;
@@ -25,56 +36,64 @@ public class Colony{
     }
   }
 
-  public int getReputation(){return reputation;}
+  public void incSize(int amount){
+    size += amount;
+  }
 
+  //Used when WorkerAnt perform builds which increases the Colony's reputation
   public void incReputation(int amount){
     try{
       colonyLock.lock();
-      Thread.sleep(1); //increase chances of race condition
+      //increase chances of race condition
+      Thread.sleep(1);
       reputation += amount;
-      Thread.sleep(1); //increase chances of race condition
+      //increase chances of race condition
+      Thread.sleep(1);
     } catch(Exception e){
     } finally {
       colonyLock.unlock();
     }
-    if(reputation >= Integer.parseInt(COLONY_RANKS[4][1])){ //500
+    //If reputation is more than 500, set Rank as Empire
+    if(reputation >= Integer.parseInt(COLONY_RANKS[4][1])){
       setRank(COLONY_RANKS[4][0]);
-    } else if(reputation >= Integer.parseInt(COLONY_RANKS[3][1])){ //400
+    //If reputation is more than 400, set Rank as City
+    } else if(reputation >= Integer.parseInt(COLONY_RANKS[3][1])){
       setRank(COLONY_RANKS[2][0]);
-    } else if(reputation >= Integer.parseInt(COLONY_RANKS[2][1])){ //300
+      //If reputation is more than 300, set Rank as Town
+    } else if(reputation >= Integer.parseInt(COLONY_RANKS[2][1])){
       setRank(COLONY_RANKS[3][0]);
-    } else if(reputation >= Integer.parseInt(COLONY_RANKS[1][1])){ //200
+      //If reputation is more than 200, set Rank as Village
+    } else if(reputation >= Integer.parseInt(COLONY_RANKS[1][1])){
       setRank(COLONY_RANKS[1][0]);
     }
   }
 
+  //Used for future development of application when Colony can fight wars
   public void decReputation(int amount){
     try{
       colonyLock.lock();
-      Thread.sleep(1); //increase chances of race condition
+      //increase chances of race condition
+      Thread.sleep(1);
       reputation -= amount;
-      Thread.sleep(1); //increase chances of race condition
+      //increase chances of race condition
+      Thread.sleep(1);
     } catch(Exception e){
     } finally {
       colonyLock.unlock();
     }
   }
 
-  public String getCurrentRank(){return currentRank;}
-
-  public void setSize(int amount){
-    size += amount;
-  }
-
-  public Storage getStorage(){return storage;}
-
+  //Prints Colony's information
   public void printInfo(){
+    //Locks are used to prevent race condition when printing Colony's information
     colonyLock.lock();
-    storage.storageLock.lock();
-    System.out.println("*******************************************************\nReputation: " + reputation + "\t\t\tSize: " + size + "\nCurrentRank: " +
-    currentRank + "\t\tCurrent Resources: " + storage.getResources() + "\n*******************************************************");
-    colonyLock.unlock();
-    storage.storageLock.unlock();
+    storage.lockStorage();
+    try{
+      System.out.println("*******************************************************\nReputation: " + reputation + "\t\t\tSize: " + size + "\nCurrentRank: " +
+      currentRank + "\t\tCurrent Resources: " + storage.getResources() + "\n*******************************************************");
+    } finally{
+      storage.unlockStorage();
+      colonyLock.unlock();
+    }
   }
-
 }

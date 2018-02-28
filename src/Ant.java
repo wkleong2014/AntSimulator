@@ -1,28 +1,24 @@
 //Parent class for All Ants
 public class Ant{
-
   private String name;
-  private int height;
-  private int weight;
-  private Colony colony;
+  private Colony colony;  //The colony which the Ant belongs to
 
-  public Ant(String name, int height, int weight, Colony colony){
+  public Ant(String name, Colony colony){
     this.name = name;
-    this.height = height;
-    this.weight = weight;
     this.colony = colony;
   }
 
+  //Getter Methods
   public String getName() {return name;}
 
-  public int getHeight() {return height;}
-
-  public int getWeight() {return weight;}
-
   public Colony getColony() {return colony;}
+
+  //Setter Methods
+  public void setName(String name){
+    this.name = name;
+  }
 
   public void setColony(Colony colony) {
     this.colony = colony;
   }
-
 }
