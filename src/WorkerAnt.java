@@ -14,7 +14,7 @@ public class WorkerAnt extends Ant implements Runnable{
 
   //final variables that affects the simulation logic
   private static final int NUM_OF_WORKER_REQUIRED = 3;  //Number of WorkerAnts required for an Expedition
-  private final int NUM_OF_WORK_ACTIONS = 30;           //Total number of work actions a WorkerAnt can perform
+  private final int NUM_OF_WORK_ACTIONS = 15;           //Total number of work actions a WorkerAnt can perform
   private final int FORAGE_ENERGY_COST = 10;            //Sets energy cost for foraging (should always be the lowest among the 3)
   private final int BUILD_ENERGY_COST = 10;             //Sets energy cost for building
   private final int EXPEDITION_ENERGY_COST = 30;        //Sets energy cost for expedition

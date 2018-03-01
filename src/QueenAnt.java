@@ -13,10 +13,10 @@ public class QueenAnt extends Ant implements Runnable{
 
   //Creates and starts WorkerThreads based on the Maximum Number of Eggs Laid
   public void layEgg(){
-    // Random r = new Random();                          //Uncomment to randomise the number of Ants spawn from each Egg
-    // int randomNumOfAnts = r.nextInt(3) + 1;           //Uncomment to randomise the number of Ants spawn from each Egg
     //Number of Ants produced by an egg
-    int randomNumOfAnts = 1;
+    // int randomNumOfAnts = 1;                       //Uncomment for fixed number of Ants spawn from each Egg
+    Random r = new Random();                          //Uncomment to randomise the number of Ants spawn from each Egg
+    int randomNumOfAnts = r.nextInt(5) + 1;           //Uncomment to randomise the number of Ants spawn from each Egg
     for(int i=0; i<randomNumOfAnts; i++){
       WorkerAnt ant = new WorkerAnt("Ant_" + antId, getColony());
       antId++;
