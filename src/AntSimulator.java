@@ -28,7 +28,7 @@ public class AntSimulator{
         Thread.sleep(1000);
       }catch(InterruptedException e){};
     };
-
+    timer.stop();
     //kill reader thread when all WorkerAnt's threads have been terminated
     reader_runnable.kill();
 
@@ -36,7 +36,7 @@ public class AntSimulator{
     System.out.println("********************************");
     System.out.println("Final Rank of Colony: " + queenAnt.getColony().getCurrentRank());
     System.out.println("Final Size of Colony: " + queenAnt.getColony().getSize());
-    System.out.println("Final Reputation of Colony: " + queenAnt.getColony().getReputation());    
+    System.out.println("Final Reputation of Colony: " + queenAnt.getColony().getReputation());
     System.out.println("Final Storage of Colony: " + queenAnt.getColony().getStorage().getResources());
     System.out.println("Final Map Parts Completed: " + WorkerAnt.mapParts + "/" + WorkerAnt.OVERALL_MAP_PARTS + " ("
     + Math.round(100.0*WorkerAnt.mapParts/WorkerAnt.OVERALL_MAP_PARTS*100.0)/100.0  + "%)");
